@@ -2,7 +2,7 @@
  * @Author: zhangyao
  * @Date: 2021-05-10 15:54:53
  * @LastEditors: zhangyao
- * @LastEditTime: 2021-05-12 17:46:31
+ * @LastEditTime: 2021-05-14 17:38:38
 -->
 <template>
   <div id="app">
@@ -65,29 +65,49 @@
        </template>
     </z-dialog>
     <!-- 输入框 -->
-    <z-input placeholder="请输入用户名" type="password"  v-model="username"></z-input>
+    <!-- v-model语法糖 等价于 :value="username" @input="username=$event.target.value" 用于给组件使用v-model -->
+    <z-input placeholder="请输入用户名" v-model="username" clearable></z-input>
+    <z-input placeholder="请输入密码" type="password" show-password v-model="password"></z-input>
+    <!-- switch组件 -->
+    <z-switch v-model="active" active-color="red" inactive-color="green" @change="changeChecked"></z-switch>
+    <!-- radio组件
+    <z-radio v-model="radio"  label="1">男</z-radio>
+    <z-radio v-model="radio" label="0">女</z-radio>
+    <z-radio v-model="radio"  label="男"></z-radio>
+    <z-radio v-model="radio" label="女"></z-radio> -->
+    <!-- radio-group -->
+    <radio-group v-model="radio">
+        <z-radio label="男"></z-radio>
+        <z-radio label="女"></z-radio>
+    </radio-group>
   </div>
 </template>
 
 <script>
+import radioGroup from './components/radio-group.vue'
 
 
 export default {
+  components: { radioGroup },
   name: 'App',
   data(){
     return{
       title:'温馨提示',
       visible:false,
-      username:''
+      username:'xxxx',
+      password:'',
+      active:false,
+      radio:'1'
     }
   },
   methods:{
     clickMe(){
       this.visible=true
     },
-    // close(value){
-    //   this.visible=value
-    // }
+    changeChecked(val){
+      console.log(val)
+    }
+   
   },
 }
 </script>

@@ -2,18 +2,26 @@
  * @Author: zhangyao
  * @Date: 2021-05-12 16:46:22
  * @LastEditors: zhangyao
- * @LastEditTime: 2021-05-12 17:44:18
+ * @LastEditTime: 2021-05-13 15:05:35
 -->
 <template>
-  <div class="z-input">
+  <div class="z-input" :class="{'z-input--suffix':showSuffix}">
     <input
       :placeholder="placeholder"
-      :type="type"
+      :type="showPassword ? (passwordVisible ? 'text':'password'):type"
       :disabled="disabled"
       :name="name"
       class="z-input__inner"
       :class="[{ 'is-disabled': disabled }]"
+      :value="value"
+      @input="handleInput"
     />
+    <span class="z-input__suffix" v-if="showSuffix">
+       <i class="z-input__icon iconfont iconguanbi2" v-if="clearable && value" @click="clear"></i>
+       <i class="z-input__icon iconfont iconzujian-icon-39"
+        :class="{'z-icon-view-active':passwordVisible}"
+        v-if="showPassword && value" @click="handlePassword"></i>
+    </span>
   </div>
 </template>
 <script>
@@ -36,10 +44,41 @@ export default {
       type: Boolean,
       default: false,
     },
+    value:{
+      type:String,
+      default:''
+    },
+    clearable:{
+      type:Boolean,
+      default:false
+    },
+    showPassword:{
+      type:Boolean,
+      default:false
+    }
+  },
+  computed:{
+    showSuffix(){
+      return this.clearable||this.showPassword
+    }
   },
   data() {
-    return {};
+    return {
+      //用于控制是否显示密码框
+      passwordVisible:false
+    };
   },
+  methods:{
+    handleInput(e){
+      this.$emit('input',e.target.value)
+    },
+    clear(){
+      this.$emit('input','')
+    },
+    handlePassword(){
+      this.passwordVisible=!this.passwordVisible
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -75,5 +114,31 @@ export default {
       cursor: not-allowed;
     }
   }
+}
+.z-input--suffix{
+    .z-input__inner{
+      padding-right: 30px;
+    }
+    .z-input__suffix{
+      position: absolute;
+      height: 100%;
+      right: 10px;
+      top:0px;
+      line-height: 40px;
+      text-align: center;
+      color:#c0c4cc;
+      transition: all .3s;
+      z-index: 900;
+      i{
+        color:#c0c4cc;
+        font-size: 14px;
+        cursor: pointer;
+        transition: color .2s cubic-bezier(.645,045,.355,1);
+      }
+      .z-icon-view-active{
+        color:#409eff
+      }
+    }
+  
 }
 </style>

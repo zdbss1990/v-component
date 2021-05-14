@@ -2,7 +2,7 @@
  * @Author: zhangyao
  * @Date: 2021-05-12 10:30:22
  * @LastEditors: zhangyao
- * @LastEditTime: 2021-05-12 16:44:08
+ * @LastEditTime: 2021-05-13 10:24:36
 -->
 <template>
     <!--背景遮罩-->
@@ -26,7 +26,7 @@
                     <slot></slot>
                 </div>
                 <div class="z-dialog__footer" v-if="$slots.footer">
-                <slot name="footer"></slot>
+                     <slot name="footer"></slot>
                 </div>
             </div>
         </div>
